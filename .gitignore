@@ -1,1 +1,6 @@
 Debug
+*.html
+*.htm
+.vs
+x64
+x86
