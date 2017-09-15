@@ -5,42 +5,42 @@
 #include <string>
 using namespace std;
 
-template <typename E>
+
 struct SLinkedList
 {
 public:
 	SLinkedList();
 	~SLinkedList();
 	bool isEmpty() const;
-	const E& front() const;
-	void addFront(const E& e);
+	Node & front() const;
+	void addFront(string name , int score);
 	void removeFront();
 private:
-	Node<E>* head;
+	Node* head;
 };
 
-template <typename E>
+
 struct Node
 {
+public:
+	string getName();
+	int getScore();
+	void printElement();
+	Node *getNext();
 private:
 	string name;
 	int score;
-	Node<E> *next;
-	friend struct SLinkedList<E>;
+	Node *next;
+	friend struct SLinkedList;
 };
 
-int main()
-{
-    return 0;
-}
 
-template<typename E>
-SLinkedList<E>::SLinkedList()	// 생성자
+SLinkedList::SLinkedList()	// 생성자
 {
 }
 
-template<typename E>
-SLinkedList<E>::~SLinkedList()	// 소멸자
+
+SLinkedList::~SLinkedList()	// 소멸자
 {
 	while (!isEmpty())
 	{
@@ -48,31 +48,130 @@ SLinkedList<E>::~SLinkedList()	// 소멸자
 	}
 }
 
-template<typename E>
-bool SLinkedList<E>::isEmpty() const	// 비어있는가?
+
+bool SLinkedList::isEmpty() const	// 비어있는가?
 {
 	return head == NULL;
 }
 
-template<typename E>
-const E & SLinkedList<E>::front() const		// 앞 부분 반환
+
+Node & SLinkedList::front() const		// 앞 부분 반환
 {
-	return head;	// todo : 뭘 반환해야 할 지 아직 모르겠음
+	return *head;	// todo : 뭘 반환해야 할 지 아직 모르겠음
 }
 
-template<typename E>
-void SLinkedList<E>::addFront(const E & e)	// 앞에 추가
+
+void SLinkedList::addFront(string name , int score)	// 앞에 추가
 {
-	Node<E> * node = new Node<E>;
-	node->name = e;	// todo : name score 두개 넣어야함
+	Node * node = new Node;
+	node->name = name;	
+	node->score = score;
 	node->next = head;
 	head = node;
 }
 
-template<typename E>
-void SLinkedList<E>::removeFront()	// 앞을 삭제
+
+void SLinkedList::removeFront()	// 앞을 삭제
 {
-	Node<E> before = head;
+	Node * before = head;
 	head = before->next;
 	delete before;
+}
+
+int main()
+{
+	SLinkedList a;
+
+	char ch;
+	string name;
+	int score;
+
+	cin >> ch;
+	while (ch != 'X') {
+		switch (ch) {
+		case 'I':
+			// Implement Insert Data
+			cin >> name >> score;
+			a.addFront(name, score);
+			break;
+		case 'R':
+			// Implement Remove Front
+			if (a.isEmpty())
+			{
+				// head 가 비어있다면
+				cout << "Invalid Removal\n";
+			}
+			else
+			{
+				// head 가 비어 있지 않다면 삭제
+				a.removeFront();
+			}
+			break;
+		case 'E':
+			// Implement Empty
+			if (a.isEmpty())
+			{
+				cout << "T\n";
+			}
+			else
+			{
+				cout << "F\n";
+			}
+
+			break;
+		case 'H':
+			// Implement Head
+			if (a.isEmpty())
+			{
+				cout << "Empty List\n";
+			}
+			else
+			{
+				a.front().printElement();
+			}
+			break;
+		case 'T':
+			// Implement Traverse List
+			if (a.isEmpty())
+			{
+				cout << "Empty List\n";
+			}
+			else
+			{
+				Node old = a.front();
+				while ()
+				{
+
+				}
+				
+			}
+			break;
+		default:
+			cout << "Wrong Input" << endl;
+			break;
+		}
+
+		cin >> ch;
+
+	}
+}
+
+string Node::getName()
+{
+	return this->name;
+}
+
+int Node::getScore()
+{
+	return this->score;
+}
+
+void Node::printElement()
+{
+	cout << this->getName() << " " << this->getScore();
+}
+
+Node * Node::getNext()
+{
+	return this->next;
 }
