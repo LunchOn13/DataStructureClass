@@ -1,85 +1,42 @@
-// 자료구조.cpp : 콘솔 응용 프로그램에 대한 진입점을 정의합니다.
-//
+#include<iostream>
+#include<string>
 
-#include <iostream>
-#include <string>
+#pragma warning
 using namespace std;
 
-
-struct SLinkedList
-{
+class Node; // A : 오류 코드 C4430 때문에 암시
+class SLinkedList {
 public:
-	SLinkedList();
-	~SLinkedList();
-	bool isEmpty() const;
-	Node & front() const;
-	void addFront(string name , int score);
-	void removeFront();
+	SLinkedList();		// 생성자
+	~SLinkedList();		// 소멸자
+	bool empty() const;	// 비어있는 리스트인가
+	const Node& front() const;	// head 반환
+	void addFront(const string &a, const int &i);	// 앞에 node 삽입
+	void removeFront();		// 앞 노드를 지운다
+	void printAll() const;	// 리스트에 있는 모든 node 에 대한 elelment를 출력
 private:
-	Node* head;
+	Node *head;
 };
 
-
-struct Node
-{
+class Node {
 public:
-	string getName();
-	int getScore();
-	void printElement();
-	Node *getNext();
+	string getName() const;		// name 받아온다
+	int getScore() const;		// score 받아온다
+	void printElement() const;	// name score 출력
+	Node getNext() const;		// 다음 node 반환
 private:
 	string name;
 	int score;
-	Node *next;
-	friend struct SLinkedList;
+	Node * next;
+
+	friend class SLinkedList;
 };
 
 
-SLinkedList::SLinkedList()	// 생성자
-{
-}
-
-
-SLinkedList::~SLinkedList()	// 소멸자
-{
-	while (!isEmpty())
-	{
-		removeFront();
-	}
-}
-
-
-bool SLinkedList::isEmpty() const	// 비어있는가?
-{
-	return head == NULL;
-}
-
-
-Node & SLinkedList::front() const		// 앞 부분 반환
-{
-	return *head;	// todo : 뭘 반환해야 할 지 아직 모르겠음
-}
-
-
-void SLinkedList::addFront(string name , int score)	// 앞에 추가
-{
-	Node * node = new Node;
-	node->name = name;	
-	node->score = score;
-	node->next = head;
-	head = node;
-}
-
-
-void SLinkedList::removeFront()	// 앞을 삭제
-{
-	Node * before = head;
-	head = before->next;
-	delete before;
-}
 
 int main()
 {
+	// 교수님이 주신 query.cpp
 	SLinkedList a;
 
 	char ch;
@@ -87,67 +44,46 @@ int main()
 	int score;
 
 	cin >> ch;
+
 	while (ch != 'X') {
 		switch (ch) {
 		case 'I':
-			// Implement Insert Data
 			cin >> name >> score;
 			a.addFront(name, score);
 			break;
 		case 'R':
 			// Implement Remove Front
-			if (a.isEmpty())
-			{
-				// head 가 비어있다면
-				cout << "Invalid Removal\n";
-			}
-			else
-			{
-				// head 가 비어 있지 않다면 삭제
+			if (!a.empty())
 				a.removeFront();
-			}
+			else
+				cout << "Invalid Removal\n";
 			break;
 		case 'E':
 			// Implement Empty
-			if (a.isEmpty())
-			{
+			if (a.empty())
 				cout << "T\n";
-			}
 			else
-			{
 				cout << "F\n";
-			}
-
 			break;
 		case 'H':
 			// Implement Head
-			if (a.isEmpty())
-			{
-				cout << "Empty List\n";
-			}
-			else
+			if (!a.empty())
 			{
 				a.front().printElement();
+				cout << endl;
 			}
+			else
+				cout << "Empty List\n";
 			break;
 		case 'T':
 			// Implement Traverse List
-			if (a.isEmpty())
-			{
-				cout << "Empty List\n";
-			}
+			if(!a.empty())
+				a.printAll();
 			else
-			{
-				Node old = a.front();
-				while ()
-				{
-
-				}
-				
-			}
+				cout << "Empty List\n";
 			break;
 		default:
-			cout << "Wrong Input" << endl;
+			cout << "Wrong Input\n" << endl;
 			break;
 		}
 
@@ -156,22 +92,74 @@ int main()
 	}
 }
 
-string Node::getName()
+SLinkedList::SLinkedList() : head(NULL)		// 생성자
 {
-	return this->name;
+
 }
 
-int Node::getScore()
+SLinkedList::~SLinkedList()		// 소멸자
 {
-	return this->score;
+	while (!empty())
+	{
+		removeFront();
+	}
 }
 
-void Node::printElement()
+bool SLinkedList::empty() const		// head가 비어있으면 true 
 {
-	cout << this->getName() << " " << this->getScore();
+	return head == NULL;
 }
 
-Node * Node::getNext()
+const Node & SLinkedList::front() const	// head 에 할당되어 있는 node 반환
 {
-	return this->next;
+	return *head;
+}
+
+void SLinkedList::printAll() const	// 리스트 안의 모든 node의 element 를 출력
+{
+	Node tmp = this->front();	// 계속해서 바뀔 node를 받아둘곳
+	tmp.printElement();			// tmp에 받아온 head의 element 출력
+	
+	while (tmp.next != NULL)	// tmp의 다음 node가 있다면
+	{
+		tmp.getNext().printElement();	// tmp 다음 node 의 element 출력
+		tmp = tmp.getNext();	// tmp 에 원래 tmp의 다음 node 를 할당
+	}
+	cout << endl;
+}
+
+void SLinkedList::addFront(const string & s, const int & i)	// 앞에 node 하나 삽입
+{
+	Node * a = new Node;
+	a->name = s;
+	a->score = i;
+	a->next = head;
+	head = a;
+}
+
+void SLinkedList::removeFront()	// 앞의 node 삭제
+{
+	Node * old = head;
+	head = old->next;
+	delete old;
+}
+
+string Node::getName() const
+{
+	return name;
+}
+
+int Node::getScore() const
+{
+	return score;
+}
+
+void Node::printElement() const	// 해당 node 의 name 과 score 출력
+{
+	cout << "(" << this->getName() << ", " << this->getScore() << ") ";
+}
+
+Node Node::getNext() const
+{
+	return *next;
 }
