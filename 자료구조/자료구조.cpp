@@ -83,7 +83,7 @@ int main()
 				cout << "Empty List\n";
 			break;
 		default:
-			cout << "Wrong Input\n" << endl;
+			cout << "Wrong Input" << endl;
 			break;
 		}
 
