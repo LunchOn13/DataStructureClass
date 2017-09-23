@@ -34,64 +34,6 @@ private:
 
 
 
-int main()
-{
-	// 교수님이 주신 query.cpp
-	SLinkedList a;
-
-	char ch;
-	string name;
-	int score;
-
-	cin >> ch;
-
-	while (ch != 'X') {
-		switch (ch) {
-		case 'I':
-			cin >> name >> score;
-			a.addFront(name, score);
-			break;
-		case 'R':
-			// Implement Remove Front
-			if (!a.empty())
-				a.removeFront();
-			else
-				cout << "Invalid Removal\n";
-			break;
-		case 'E':
-			// Implement Empty
-			if (a.empty())
-				cout << "T\n";
-			else
-				cout << "F\n";
-			break;
-		case 'H':
-			// Implement Head
-			if (!a.empty())
-			{
-				a.front().printElement();
-				cout << endl;
-			}
-			else
-				cout << "Empty List\n";
-			break;
-		case 'T':
-			// Implement Traverse List
-			if(!a.empty())
-				a.printAll();
-			else
-				cout << "Empty List\n";
-			break;
-		default:
-			cout << "Wrong Input" << endl;
-			break;
-		}
-
-		cin >> ch;
-
-	}
-}
-
 SLinkedList::SLinkedList() : head(NULL)		// 생성자
 {
 
@@ -162,4 +104,63 @@ void Node::printElement() const	// 해당 node 의 name 과 score 출력
 Node Node::getNext() const
 {
 	return *next;
+}
+
+
+int main()
+{
+	// 교수님이 주신 query.cpp
+	SLinkedList a;
+
+	char ch;
+	string name;
+	int score;
+
+	cin >> ch;
+
+	while (ch != 'X') {
+		switch (ch) {
+		case 'I':
+			cin >> name >> score;
+			a.addFront(name, score);
+			break;
+		case 'R':
+			// Implement Remove Front
+			if (!a.empty())
+				a.removeFront();
+			else
+				cout << "Invalid Removal\n";
+			break;
+		case 'E':
+			// Implement Empty
+			if (a.empty())
+				cout << "T\n";
+			else
+				cout << "F\n";
+			break;
+		case 'H':
+			// Implement Head
+			if (!a.empty())
+			{
+				a.front().printElement();
+				cout << endl;
+			}
+			else
+				cout << "Empty List\n";
+			break;
+		case 'T':
+			// Implement Traverse List
+			if (!a.empty())
+				a.printAll();
+			else
+				cout << "Empty List\n";
+			break;
+		default:
+			cout << "Wrong Input" << endl;
+			break;
+		}
+
+		cin >> ch;
+
+	}
 }
