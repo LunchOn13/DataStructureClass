@@ -5,3 +5,5 @@ Debug
 x64
 x86
 *.hwp
+
+/report
