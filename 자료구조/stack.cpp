@@ -48,12 +48,14 @@ private:
 	friend class SLinkedList;
 };
 
+// html tag들을 받아오는 함수
 vector<string> getHtmlTags() {
 	vector<string> tags;
 		string line; 
 		getline(cin, line);
 		int pos = 0;
 		int ts = line.find("<", pos);
+		// 가져온 html tag 분리
 		while (ts != string::npos)
 		{
 			int te = line.find(">", ts + 1);
@@ -64,28 +66,41 @@ vector<string> getHtmlTags() {
 	return tags;
 }
 
+// 가져온 html tag를 가지고 tag가 짝맞춤이 되어있는지 확인
 bool isHtmlMatched(const vector<string> & tags)
 {
+	// tag들을 넣어둘 스택
 	stack S;
 	typedef vector <string> ::const_iterator Iter;
 
+	// < ~ > 까지
 	for (Iter p = tags.begin(); p != tags.end(); ++p)
 	{
+		// / 가 없으면 스택에 삽입
 		if (p->at(1) != '/')
 			S.push(*p);
+		
+		// / 가 있으면
 		else
 		{
+			// 스택 비어 있으면 html 정상이 아님
 			if (S.isEmpty())
 				return false;
+		
+			// 태그가 짝맞춤이 되지 않으면 정상이 아님
 			string open = S.top().substr(1);
 			string close = p->substr(2);
 			if (open.compare(close) != 0)
 				return false;
+
+			// 정상인 경우
 			else S.pop();
 		}
 	}
+	// 스택이 모두 비어 html 전체 태그상태가 정상임
 	if (S.isEmpty())
 		return true;
+	// 태그 상태가 정상이 아님
 	else
 		return false;
 }
@@ -205,87 +220,3 @@ int main()
 		testcase--;
 	}
 }
-
-//
-//int main()
-//{
-//	int testcase;
-//	char tmp;
-//	bool fail = false;	// stack이 비어있음에도 pop 하려고 할때, 즉 html 태그가 이미 확실히 틀린 것을 알때
-//	cin >> testcase;
-//	cin.get(tmp);	// testcase 이후의 개행문자 받기
-//
-//	bool isSlash = false;
-//
-//	while (testcase != 0)
-//	{
-//		stack myStack;
-//
-//		while (cin.get(tmp))
-//		{
-//			// 개행 문자 인식
-//			if (tmp == '\n')
-//				break;
-//
-//			// 공백 예외 처리
-//			if (tmp == ' ')
-//			{
-//				tmp = NULL;
-//				continue;
-//			}
-//
-//			// 닫는 꺽쇠 인식
-//			if (tmp == '>')
-//			{
-//				isSlash = false;
-//
-//				// 스택이 이미 비어있는 상태에서 닫는 꺽쇠를 받으면 확실히 태그가 잘못됨
-//				if (myStack.isEmpty())
-//					fail = true;
-//
-//				// fail 이 true 이면 pop 시키지 않음
-//				if (fail == false)
-//					myStack.pop();
-//			}
-//			// 슬래쉬를 받으면 , 닫는 태그를 인식
-//			else if (!isSlash)
-//			{
-//				// 스택에 들어있는 body 나 li, hl 들을 없애기
-//				if (tmp == '/')
-//				{
-//					isSlash = true;
-//					tmp = NULL;
-//					continue;
-//				}
-//				else
-//				{
-//					// 스택에 받은 것을 push
-//					myStack.push(tmp);
-//				}
-//			}
-//			// 슬래쉬를 받은 이후 > 를 받기 전까지 스택에서 계속해서 빼냄
-//			else
-//			{
-//				// 이미 스택이 비어 있어 확실히 틀린상황
-//				if (myStack.isEmpty())
-//				{
-//					fail = true;
-//				}
-//				// 스택에서 빼낸다
-//				if (fail == false)
-//					myStack.pop();
-//			}
-//			tmp = NULL;
-//		}
-//		if (myStack.isEmpty() && fail == false)
-//			cout << "Correct\n";
-//		else
-//		{
-//			cout << "Incorrect\n";
-//			fail = false;
-//		}
-//
-//		testcase--;
-//	}
-//
-//}
