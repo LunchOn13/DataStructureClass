@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="12161638_list.cpp" />
     <ClCompile Include="12161638_queue.cpp" />
+    <ClCompile Include="12161638_vector.cpp" />
     <ClCompile Include="stack.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
